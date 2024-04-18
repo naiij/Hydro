@@ -311,7 +311,9 @@ ${nixConfBase}`);
                     readPreference: 'nearest',
                     writeConcern: new WriteConcern('majority'),
                 });
-                await client.db('hydro').addUser('hydro', password, {
+                await client.db('hydro').command({
+                    createUser: 'hydro',
+                    pwd: password,
                     roles: [{ role: 'readWrite', db: 'hydro' }],
                 });
                 await client.close();
