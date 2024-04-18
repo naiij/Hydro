@@ -275,6 +275,7 @@ ${nixConfBase}`);
     ];
 }`),
             `nix-env -iA hydro.mongodb${avx ? 6 : 4}${CN ? '-cn' : ''} nixpkgs.mongosh nixpkgs.mongodb-tools`,
+            'bun i -g mongodb',
         ],
     },
 
@@ -305,7 +306,7 @@ ${nixConfBase}`);
             () => sleep(3000),
             async () => {
                 // eslint-disable-next-line
-                const { MongoClient, WriteConcern } = require('/usr/local/share/.config/yarn/global/node_modules/mongodb') as typeof import('mongodb');
+                const { MongoClient, WriteConcern } = require('/root/.bun/install/global/node_modules/mongodb') as typeof import('mongodb');
                 const client = await MongoClient.connect('mongodb://127.0.0.1', {
                     readPreference: 'nearest',
                     writeConcern: new WriteConcern('majority'),
@@ -328,7 +329,6 @@ ${nixConfBase}`);
             ['pm2 stop all', { ignore: true }],
             () => writeFileSync(`${process.env.HOME}/.hydro/mount.yaml`, mount),
             // eslint-disable-next-line max-len
-            `pm2 start bash --name hydro-sandbox -- -c "ulimit -s unlimited && hydro-sandbox -mount-conf ${process.env.HOME}/.hydro/mount.yaml -http-addr=localhost:5050"`,
             ...[
                 () => console.log(`WiredTiger cache size: ${wtsize}GB`),
                 `pm2 start mongod --name mongodb -- --auth --bind_ip 0.0.0.0 --wiredTigerCacheSizeGB=${wtsize}`,
