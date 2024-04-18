@@ -72,9 +72,14 @@ for (const name of ['plugins', 'modules']) {
     fs.writeFileSync(path.resolve(process.cwd(), name, 'nop.ts'), 'export default {};\n');
 }
 
+const targetPackages = ['hydrooj', 'hydrojudge'];
+const targetModules = fs.readdirSync(path.resolve(process.cwd(), 'packages')).map((i) => `packages/${i}`)
+    .filter((i) => targetPackages.includes(i.split('/')[1]));
+
 const modules = [
     'packages/hydrooj',
-    ...['packages', 'plugins', 'modules'].flatMap((i) => fs.readdirSync(path.resolve(process.cwd(), i)).map((j) => `${i}/${j}`)),
+    ...['plugins', 'modules'].flatMap((i) => fs.readdirSync(path.resolve(process.cwd(), i)).map((j) => `${i}/${j}`)),
+    ...targetModules,
 ].filter((i) => !i.includes('/.') && !i.includes('ui-default')).filter((i) => fs.statSync(path.resolve(process.cwd(), i)).isDirectory());
 
 const UIConfig = {
