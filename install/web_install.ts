@@ -275,7 +275,6 @@ ${nixConfBase}`);
     ];
 }`),
             `nix-env -iA hydro.mongodb${avx ? 6 : 4}${CN ? '-cn' : ''} nixpkgs.mongosh nixpkgs.mongodb-tools`,
-            'bun i -g mongodb',
         ],
     },
 
@@ -291,7 +290,7 @@ ${nixConfBase}`);
         init: 'install.hydro',
         operations: [
             () => removeOptionalEsbuildDeps(),
-            [`bun i -g ${installTarget}`, { retry: true }],
+            [`yarn global add ${installTarget}`, { retry: true }],
             () => {
                 writeFileSync(`${process.env.HOME}/.hydro/addon.json`, JSON.stringify(addons));
             },
@@ -306,7 +305,7 @@ ${nixConfBase}`);
             () => sleep(3000),
             async () => {
                 // eslint-disable-next-line
-                const { MongoClient, WriteConcern } = require('/root/.bun/install/global/node_modules/mongodb') as typeof import('mongodb');
+                const { MongoClient, WriteConcern } = require('/usr/local/share/.config/yarn/global/node_modules/mongodb') as typeof import('mongodb');
                 const client = await MongoClient.connect('mongodb://127.0.0.1', {
                     readPreference: 'nearest',
                     writeConcern: new WriteConcern('majority'),
