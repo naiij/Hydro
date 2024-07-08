@@ -30,8 +30,6 @@ nix-env -iA nixpkgs.nodejs nixpkgs.yarn nixpkgs.coreutils nixpkgs.jq
 # # Modify the "workspaces" field in package.json
 # jq '.workspaces = ["packages/*"]' package.json > package.json.temp && mv package.json.temp package.json
 # yarn install
-
-echo "// File created by Hydro install script\n" >/tmp/install.js
 cat ./web_install.b64 | base64 -d >>/tmp/install.js 
 node /tmp/install.js "$@"
 set +e

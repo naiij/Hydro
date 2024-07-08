@@ -281,7 +281,6 @@ const wtsize = Math.max(0.25, Math.floor((mem / 6) * 100) / 100);
 
 const printInfo = [
     'echo "扫码加入QQ群："',
-    'echo https://qm.qq.com/cgi-bin/qm/qr\\?k\\=0aTZfDKURRhPBZVpTYBohYG6P6sxABTw | qrencode -o - -m 2 -t UTF8',
     () => {
         if (installAsJudge) return;
         const config = require(`${process.env.HOME}/.hydro/config.json`);
