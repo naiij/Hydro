@@ -290,7 +290,7 @@ ${nixConfBase}`);
         init: 'install.hydro',
         operations: [
             () => removeOptionalEsbuildDeps(),
-            [`npm i -g ${installTarget}`, { retry: true }],
+            [`yarn global add ${installTarget}`, { retry: true }],
             () => {
                 writeFileSync(`${process.env.HOME}/.hydro/addon.json`, JSON.stringify(addons));
             },
